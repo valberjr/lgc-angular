@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Observable } from 'rxjs';
+import { Observable, catchError, of } from 'rxjs';
+import { ErrorDialogComponent } from '../../shared/components/error-dialog/error-dialog.component';
 import { Course } from '../models/course';
 import { CoursesService } from '../services/courses.service';
 
@@ -17,6 +19,7 @@ import { CoursesService } from '../services/courses.service';
     MatCardModule,
     MatToolbarModule,
     MatProgressSpinnerModule,
+    MatDialogModule,
   ],
   templateUrl: './courses.component.html',
   styleUrl: './courses.component.scss',
@@ -26,7 +29,21 @@ export class CoursesComponent {
 
   displayedColumns: string[] = ['name', 'category'];
 
-  constructor(private coursesService: CoursesService) {
-    this.courses$ = this.coursesService.list();
+  constructor(
+    private coursesService: CoursesService,
+    public dialog: MatDialog
+  ) {
+    this.courses$ = this.coursesService.list().pipe(
+      catchError((error) => {
+        this.onError('Error loading courses.');
+        return of([]);
+      })
+    );
+  }
+
+  onError(errorMsg: string) {
+    this.dialog.open(ErrorDialogComponent, {
+      data: errorMsg,
+    });
   }
 }
