@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, catchError, of } from 'rxjs';
 import { ErrorDialogComponent } from '../../shared/components/error-dialog/error-dialog.component';
 import { CategoryPipe } from '../../shared/pipes/category.pipe';
@@ -17,12 +19,13 @@ import { CoursesService } from '../services/courses.service';
   standalone: true,
   imports: [
     CommonModule,
-    MatTableModule,
+    MatButtonModule,
     MatCardModule,
-    MatToolbarModule,
-    MatProgressSpinnerModule,
     MatDialogModule,
     MatIconModule,
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatToolbarModule,
     CategoryPipe,
   ],
   templateUrl: './courses.component.html',
@@ -31,10 +34,12 @@ import { CoursesService } from '../services/courses.service';
 export class CoursesComponent {
   courses$: Observable<Course[]>;
 
-  displayedColumns: string[] = ['name', 'category'];
+  displayedColumns: string[] = ['name', 'category', 'actions'];
 
   constructor(
     private coursesService: CoursesService,
+    private router: Router,
+    private route: ActivatedRoute,
     public dialog: MatDialog
   ) {
     this.courses$ = this.coursesService.list().pipe(
@@ -49,5 +54,9 @@ export class CoursesComponent {
     this.dialog.open(ErrorDialogComponent, {
       data: errorMsg,
     });
+  }
+
+  onAdd() {
+    this.router.navigate(['new'], { relativeTo: this.route });
   }
 }

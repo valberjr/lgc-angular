@@ -13,4 +13,11 @@ export const routes: Routes = [
         (m) => m.CoursesComponent
       ),
   },
+  {
+    path: 'courses/new',
+    loadComponent: () =>
+      import('./courses/course-form/course-form.component').then(
+        (m) => m.CourseFormComponent
+      ),
+  },
 ];
