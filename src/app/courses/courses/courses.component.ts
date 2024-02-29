@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -18,7 +18,8 @@ import { CoursesService } from '../services/courses.service';
   selector: 'app-courses',
   standalone: true,
   imports: [
-    CommonModule,
+    AsyncPipe,
+    NgIf,
     MatButtonModule,
     MatCardModule,
     MatDialogModule,
