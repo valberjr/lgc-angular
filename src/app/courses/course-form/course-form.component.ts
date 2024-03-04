@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,7 +8,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { error } from 'console';
 import { CoursesService } from '../services/courses.service';
 
 @Component({
@@ -28,18 +27,17 @@ import { CoursesService } from '../services/courses.service';
   styleUrl: './course-form.component.scss',
 })
 export class CourseFormComponent {
-  form: FormGroup;
+  form = this.formBuilder.group({
+    name: [''],
+    category: [''],
+  });
+
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: NonNullableFormBuilder,
     private service: CoursesService,
     private _snackBar: MatSnackBar,
     private location: Location
-  ) {
-    this.form = this.formBuilder.group({
-      name: [null],
-      category: [null],
-    });
-  }
+  ) {}
 
   onSubmit() {
     this.service.save(this.form.value).subscribe(
