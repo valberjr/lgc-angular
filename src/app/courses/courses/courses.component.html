@@ -1,51 +1,14 @@
 <mat-card>
   <mat-card-content>
     <mat-toolbar color="primary">Available Courses</mat-toolbar>
-
-    @if (courses$ | async; as courses) {
-    <table mat-table [dataSource]="courses" class="mat-elevation-z8">
-      <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Course</th>
-        <td mat-cell *matCellDef="let course">{{ course.name }}</td>
-      </ng-container>
-      <!-- Category Column -->
-      <ng-container matColumnDef="category">
-        <th mat-header-cell *matHeaderCellDef>Category</th>
-        <td mat-cell *matCellDef="let course">
-          {{ course.category }}
-          <mat-icon aria-hidden="false" aria-label="Course category">
-            {{ course.category | category }}
-          </mat-icon>
-        </td>
-      </ng-container>
-      <!-- Actions Column -->
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>&nbsp;</th>
-        <td mat-cell *matCellDef="let course">
-          <button
-            mat-icon-button
-            color="accent"
-            aria-label="Add Course"
-            (click)="onAdd()"
-          >
-            <mat-icon>add</mat-icon>
-          </button>
-          <button mat-icon-button color="primary" aria-label="Edit Course">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button color="warn" aria-label="Edit Course">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
-    } @else {
-    <div class="loading-spinner">
-      <mat-spinner></mat-spinner>
+    <div class="mat-elevation-z8 column-flex">
+      @if (courses$ | async; as courses) {
+      <app-courses-list [courses]="courses"></app-courses-list>
+      } @else {
+      <div class="loading-spinner">
+        <mat-spinner></mat-spinner>
+      </div>
+      }
     </div>
-    }
   </mat-card-content>
 </mat-card>
