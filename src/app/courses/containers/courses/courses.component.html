@@ -3,7 +3,7 @@
     <mat-toolbar color="primary">Available Courses</mat-toolbar>
     <div class="mat-elevation-z8 column-flex">
       @if (courses$ | async; as courses) {
-      <app-courses-list [courses]="courses"></app-courses-list>
+      <app-courses-list [courses]="courses" (add)="onAdd()"></app-courses-list>
       } @else {
       <div class="loading-spinner">
         <mat-spinner></mat-spinner>

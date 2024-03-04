@@ -9,14 +9,14 @@ export const routes: Routes = [
   {
     path: 'courses',
     loadComponent: () =>
-      import('./courses/courses/courses.component').then(
+      import('./courses/containers/courses/courses.component').then(
         (m) => m.CoursesComponent
       ),
   },
   {
     path: 'courses/new',
     loadComponent: () =>
-      import('./courses/course-form/course-form.component').then(
+      import('./courses/containers/course-form/course-form.component').then(
         (m) => m.CourseFormComponent
       ),
   },
