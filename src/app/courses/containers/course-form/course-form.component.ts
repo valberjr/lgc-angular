@@ -8,6 +8,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { ActivatedRoute } from '@angular/router';
+import { Course } from '../../models/course';
 import { CoursesService } from '../../services/courses.service';
 
 @Component({
@@ -28,6 +30,7 @@ import { CoursesService } from '../../services/courses.service';
 })
 export class CourseFormComponent {
   form = this.formBuilder.group({
+    _id: [''],
     name: [''],
     category: [''],
   });
@@ -36,8 +39,16 @@ export class CourseFormComponent {
     private formBuilder: NonNullableFormBuilder,
     private service: CoursesService,
     private _snackBar: MatSnackBar,
-    private location: Location
-  ) {}
+    private location: Location,
+    private route: ActivatedRoute
+  ) {
+    const course: Course = this.route.snapshot.data['course'];
+    this.form.setValue({
+      _id: course._id,
+      name: course.name,
+      category: course.category,
+    });
+  }
 
   onSubmit() {
     this.service.save(this.form.value).subscribe(
