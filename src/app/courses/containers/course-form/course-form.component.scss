@@ -4,6 +4,12 @@ mat-card {
   text-align: center;
 }
 
+mat-card-actions {
+  display: flex;
+  justify-content: center; /* Center the buttons horizontally */
+  gap: 10px; /* Add a gap between the buttons */
+}
+
 .full-width {
   width: 100%;
 }
@@ -11,4 +17,24 @@ mat-card {
 .min-width {
   min-width: 100%;
   min-width: 150px;
+}
+
+.lessons-form {
+  display: flex;
+  flex-direction: column;
+  padding-top: 1rem;
+}
+
+.lesson-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.lesson-group .lesson-name-input {
+  flex: 2;
+  margin-right: 0.5rem;
+}
+
+.lesson-group .lesson-youtube-url-input {
+  flex: 1;
 }

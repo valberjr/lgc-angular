@@ -4,11 +4,13 @@ import {
   FormGroup,
   NonNullableFormBuilder,
   ReactiveFormsModule,
+  UntypedFormArray,
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -30,6 +32,7 @@ import { CoursesService } from '../../services/courses.service';
     MatButtonModule,
     MatSelectModule,
     MatSnackBarModule,
+    MatIconModule,
   ],
   templateUrl: './course-form.component.html',
   styleUrl: './course-form.component.scss',
@@ -94,6 +97,10 @@ export class CourseFormComponent {
     }
 
     return 'Invalid field';
+  }
+
+  getLessonsFormArray() {
+    return (<UntypedFormArray>this.form.get('lessons')).controls;
   }
 
   private onSuccess() {
