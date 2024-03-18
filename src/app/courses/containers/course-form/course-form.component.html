@@ -30,47 +30,49 @@
       </mat-toolbar>
 
       @if (formUtils.isFormArrayRequired(form, 'lessons')) {
-      <mat-error class="form-array-error">Add at least one lesson</mat-error>
+      <mat-error class="mat-error">Add at least one lesson</mat-error>
       }
 
       <div class="lessons-form" formArrayName="lessons">
         @for (lesson of getLessonsFormArray(); track $index) {
         <div class="lesson-group" [formGroupName]="$index">
-          <mat-form-field class="lesson-input lesson-name-input">
-            <mat-label>Lesson Name</mat-label>
-            <input matInput formControlName="name" />
-          </mat-form-field>
-          @if (getLessonsFormArray()[$index].get('name')?.invalid) {
-          <mat-error>
-            {{
-              formUtils.getFormArrayFieldErrorMessage(
-                form,
-                'lessons',
-                'name',
-                $index
-              )
-            }}
-          </mat-error>
-          }
-
-          <mat-form-field class="lesson-input lesson-youtube-url-input">
-            <mat-label>URL</mat-label>
-            <span matTextPrefix>https://youtu.be/</span>
-            <input matInput formControlName="youtubeUrl" />
-          </mat-form-field>
-          @if (getLessonsFormArray()[$index].get('youtubeUrl')?.invalid) {
-          <mat-error>
-            {{
-              formUtils.getFormArrayFieldErrorMessage(
-                form,
-                'lessons',
-                'youtubeUrl',
-                $index
-              )
-            }}
-          </mat-error>
-          }
-
+          <div class="input-group">
+            <mat-form-field class="lesson-input lesson-name-input">
+              <mat-label>Lesson Name</mat-label>
+              <input matInput formControlName="name" />
+            </mat-form-field>
+            @if (getLessonsFormArray()[$index].get('name')?.invalid) {
+            <mat-error>
+              {{
+                formUtils.getFormArrayFieldErrorMessage(
+                  form,
+                  'lessons',
+                  'name',
+                  $index
+                )
+              }}
+            </mat-error>
+            }
+          </div>
+          <div class="input-group">
+            <mat-form-field class="lesson-input lesson-youtube-url-input">
+              <mat-label>URL</mat-label>
+              <span matTextPrefix>https://youtu.be/</span>
+              <input matInput formControlName="youtubeUrl" />
+            </mat-form-field>
+            @if (getLessonsFormArray()[$index].get('youtubeUrl')?.invalid) {
+            <mat-error>
+              {{
+                formUtils.getFormArrayFieldErrorMessage(
+                  form,
+                  'lessons',
+                  'youtubeUrl',
+                  $index
+                )
+              }}
+            </mat-error>
+            }
+          </div>
           <button mat-icon-button color="warn" (click)="removeLesson($index)">
             <mat-icon aria-label="Delete lesson">delete</mat-icon>
           </button>
