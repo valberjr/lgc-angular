@@ -16,6 +16,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute } from '@angular/router';
+import { FormUtilsService } from '../../../shared/form/form-utils.service';
 import { Course } from '../../models/course';
 import { Lesson } from '../../models/lesson';
 import { CoursesService } from '../../services/courses.service';
@@ -45,7 +46,8 @@ export class CourseFormComponent {
     private service: CoursesService,
     private _snackBar: MatSnackBar,
     private location: Location,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public formUtils: FormUtilsService
   ) {
     const course: Course = this.route.snapshot.data['course'];
 
@@ -73,36 +75,12 @@ export class CourseFormComponent {
         error: () => this.onError(),
       });
     } else {
-      alert('Invalid form');
+      this.formUtils.validateAllFormFields(this.form);
     }
   }
 
   onCancel() {
     this.location.back();
-  }
-
-  getErrorMessage(fieldName: string) {
-    const field = this.form.get(fieldName);
-
-    if (field?.hasError('required')) {
-      return 'This field is required';
-    }
-
-    if (field?.hasError('minlength')) {
-      const requiredLength = field.errors
-        ? field.errors['minlength']['requiredLength']
-        : 5;
-      return `This field must be at least ${requiredLength} characters`;
-    }
-
-    if (field?.hasError('maxlength')) {
-      const requiredLength = field.errors
-        ? field.errors['maxlength']['requiredLength']
-        : 100;
-      return `This field must be at most ${requiredLength} characters`;
-    }
-
-    return 'Invalid field';
   }
 
   getLessonsFormArray() {
@@ -117,11 +95,6 @@ export class CourseFormComponent {
   removeLesson(index: number) {
     const lessons = this.form.get('lessons') as UntypedFormArray;
     lessons.removeAt(index);
-  }
-
-  isFormArrayRequired() {
-    const lessons = this.form.get('lessons') as UntypedFormArray;
-    return !lessons.valid && lessons.hasError('required') && lessons.touched;
   }
 
   private onSuccess() {

@@ -7,19 +7,18 @@
         <input matInput placeholder="Name" formControlName="name" #name />
         <mat-hint align="end">{{ name.value.length }}/100</mat-hint>
         @if (form.get('name')?.invalid) {
-        <mat-error>{{ getErrorMessage('name') }}</mat-error>
+        <mat-error>{{ formUtils.getErrorMessage(form, 'name') }}</mat-error>
         }
       </mat-form-field>
 
       <mat-form-field class="full-width">
         <mat-label>Category</mat-label>
         <mat-select formControlName="category">
-          <mat-option value="null"></mat-option>
           <mat-option value="back-end">Back-End</mat-option>
           <mat-option value="front-end">Front-End</mat-option>
         </mat-select>
         @if (form.get('category')?.invalid) {
-        <mat-error>{{ getErrorMessage('category') }}</mat-error>
+        <mat-error>{{ formUtils.getErrorMessage(form, 'category') }}</mat-error>
         }
       </mat-form-field>
 
@@ -30,7 +29,7 @@
         </button>
       </mat-toolbar>
 
-      @if (isFormArrayRequired()) {
+      @if (formUtils.isFormArrayRequired(form, 'lessons')) {
       <mat-error class="form-array-error">Add at least one lesson</mat-error>
       }
 
@@ -42,7 +41,16 @@
             <input matInput formControlName="name" />
           </mat-form-field>
           @if (getLessonsFormArray()[$index].get('name')?.invalid) {
-          <mat-error>Invalid field</mat-error>
+          <mat-error>
+            {{
+              formUtils.getFormArrayFieldErrorMessage(
+                form,
+                'lessons',
+                'name',
+                $index
+              )
+            }}
+          </mat-error>
           }
 
           <mat-form-field class="lesson-input lesson-youtube-url-input">
@@ -51,7 +59,16 @@
             <input matInput formControlName="youtubeUrl" />
           </mat-form-field>
           @if (getLessonsFormArray()[$index].get('youtubeUrl')?.invalid) {
-          <mat-error>Invalid field</mat-error>
+          <mat-error>
+            {{
+              formUtils.getFormArrayFieldErrorMessage(
+                form,
+                'lessons',
+                'youtubeUrl',
+                $index
+              )
+            }}
+          </mat-error>
           }
 
           <button mat-icon-button color="warn" (click)="removeLesson($index)">
