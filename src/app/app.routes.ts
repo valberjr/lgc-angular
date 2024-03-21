@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
-import { courseResolver } from './courses/guards/course.resolver';
 
-export const routes: Routes = [
+export const APP_ROUTES: Routes = [
   {
     path: '',
     pathMatch: 'full',
@@ -9,29 +8,7 @@ export const routes: Routes = [
   },
   {
     path: 'courses',
-    loadComponent: () =>
-      import('./courses/containers/courses/courses.component').then(
-        (m) => m.CoursesComponent
-      ),
-  },
-  {
-    path: 'courses/new',
-    loadComponent: () =>
-      import('./courses/containers/course-form/course-form.component').then(
-        (m) => m.CourseFormComponent
-      ),
-    resolve: {
-      course: courseResolver,
-    },
-  },
-  {
-    path: 'courses/edit/:id',
-    loadComponent: () =>
-      import('./courses/containers/course-form/course-form.component').then(
-        (m) => m.CourseFormComponent
-      ),
-    resolve: {
-      course: courseResolver,
-    },
+    loadChildren: () =>
+      import('./courses/courses.routes').then((m) => m.COURSES_ROUTES),
   },
 ];

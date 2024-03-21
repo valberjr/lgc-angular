@@ -8,7 +8,7 @@ import { Observable, of } from 'rxjs';
 import { Course } from '../models/course';
 import { CoursesService } from '../services/courses.service';
 
-export const courseResolver: ResolveFn<Course> = (
+export const CourseResolver: ResolveFn<Course> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
   service: CoursesService = inject(CoursesService)
